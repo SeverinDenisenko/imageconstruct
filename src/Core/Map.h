@@ -22,6 +22,7 @@ public:
     const Color<T>& operator()(size_type i, size_type j) const;
 
     void Apply(std::function<Color<T>(size_type i, size_type j)> function);
+    void Apply(std::function<Color<T>(void)> function);
 
     size_type GetWidth();
     size_type GetHeight();
@@ -108,6 +109,15 @@ void Map<T>::Apply(std::function<Color<T>(size_type i, size_type j)> function) {
     for (size_type i = 0; i < m_height; ++i) {
         for (size_type j = 0; j < m_width; ++j) {
             (*this)(i, j) = function(i, j);
+        }
+    }
+}
+
+template<typename T>
+void Map<T>::Apply(std::function<Color<T>(void)> function) {
+    for (size_type i = 0; i < m_height; ++i) {
+        for (size_type j = 0; j < m_width; ++j) {
+            (*this)(i, j) = function();
         }
     }
 }
