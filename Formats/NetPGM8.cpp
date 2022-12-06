@@ -38,7 +38,7 @@ void NetPGM8::Read(const std::string &filename) {
     in >> name;
 
     if (name != "P2"){
-        std::cerr << "Wrong file format for NetPPM8: " << name << std::endl;
+        std::cerr << "Wrong file format for NetPGM8: " << name << std::endl;
     }
 
     size_type width;

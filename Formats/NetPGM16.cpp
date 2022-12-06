@@ -17,7 +17,7 @@ void NetPGM16::Write(const std::string& filename) {
 
     out << "P2" << std::endl;
     out << m_width << " " << m_height << std::endl;
-    out << UINT8_MAX << std::endl;
+    out << UINT16_MAX << std::endl;
 
     for (size_type i = 0; i < m_height; ++i) {
         for (size_type j = 0; j < m_width; ++j) {
@@ -38,7 +38,7 @@ void NetPGM16::Read(const std::string &filename) {
     in >> name;
 
     if (name != "P2"){
-        std::cerr << "Wrong file format for NetPPM8: " << name << std::endl;
+        std::cerr << "Wrong file format for NetPGM16: " << name << std::endl;
     }
 
     size_type width;
@@ -50,7 +50,7 @@ void NetPGM16::Read(const std::string &filename) {
     size_type max;
     in >> max;
 
-    if (max != UINT8_MAX){
+    if (max != UINT16_MAX){
         std::cerr << "Unsupported max value: " << max << std::endl;
     }
 
