@@ -60,7 +60,7 @@ Color<T>::Color(T r, T g, T b, T a) : r(r), g(g), b(b), a(a), depth(4) {
 
 template<typename T>
 Color<T> Color<T>::operator+(const Color<T> &first) const {
-    Color<T> res;
+    Color<T> res = Color<T>(this->depth);
 
     res.r = this->r + first.r;
     res.g = this->g + first.g;
@@ -72,7 +72,7 @@ Color<T> Color<T>::operator+(const Color<T> &first) const {
 
 template<typename T>
 Color<T> Color<T>::operator-(const Color<T> &first) const {
-    Color<T> res;
+    Color<T> res = Color<T>(this->depth);
 
     res.r = this->r - first.r;
     res.g = this->g - first.g;
@@ -84,7 +84,7 @@ Color<T> Color<T>::operator-(const Color<T> &first) const {
 
 template<typename T>
 Color<T> Color<T>::operator*(const T &first) const {
-    Color<T> res;
+    Color<T> res = Color<T>(this->depth);
 
     res.r = this->r * first;
     res.g = this->g * first;
@@ -96,7 +96,7 @@ Color<T> Color<T>::operator*(const T &first) const {
 
 template<typename T>
 Color<T> Color<T>::operator/(const T &first) const {
-    Color<T> res;
+    Color<T> res = Color<T>(this->depth);
 
     res.r = this->r / first;
     res.g = this->g / first;
