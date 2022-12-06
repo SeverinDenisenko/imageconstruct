@@ -20,6 +20,9 @@ public:
     Color<T>& operator()(size_type i, size_type j);
     const Color<T>& operator()(size_type i, size_type j) const;
 
+    size_type GetWidth();
+    size_type GetHeight();
+
     void SetDepth(size_type depth);
     void Clear(size_type width, size_type height, size_type depth);
 protected:
@@ -82,6 +85,16 @@ void Map<T>::Clear(size_type width, size_type height, size_type depth) {
     }
 
     SetDepth(depth);
+}
+
+template<typename T>
+size_type Map<T>::GetWidth() {
+    return m_width;
+}
+
+template<typename T>
+size_type Map<T>::GetHeight() {
+    return m_height;
 }
 
 

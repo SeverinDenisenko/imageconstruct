@@ -144,30 +144,40 @@ U& operator<< (U& out, const Color<T> &color) {
 template<typename U, typename T>
 U& operator>> (U& in, Color<T> &color) {
 
+    size_type r = 0;
+    size_type g = 0;
+    size_type b = 0;
+    size_type a = 0;
+
     switch (color.depth) {
         case 0:
             break;
         case 1:
-            in >> color.r;
+            in >> r;
             break;
         case 2:
-            in >> color.r;
-            in >> color.g;
+            in >> r;
+            in >> g;
             break;
         case 3:
-            in >> color.r;
-            in >> color.g;
-            in >> color.b;
+            in >> r;
+            in >> g;
+            in >> b;
             break;
         case 4:
-            in >> color.r;
-            in >> color.g;
-            in >> color.b;
-            in >> color.a;
+            in >> r;
+            in >> g;
+            in >> b;
+            in >> a;
             break;
         default:
             std::cerr << "Invalid color depth: " << color.depth << std::endl;
     }
+
+    color.r = (T) r;
+    color.g = (T) g;
+    color.b = (T) b;
+    color.a = (T) a;
 
     return in;
 }

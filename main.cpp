@@ -2,24 +2,15 @@
 
 int main() {
 
-    size_type size = 1024;
+    NetPPM8 first = NetPPM8();
 
-    NetPPM8 first = NetPPM8(size, size);
-    NetPPM8 second = NetPPM8(size, size);
-    NetPPM8 third = NetPPM8(size, size);
+    first.Read("Images/first.ppm");
 
+    size_type size = first.GetHeight();
 
-    for (size_type i = 0; i < size; ++i) {
-        for (size_type j = 0; j < size; ++j) {
-            first(i, j) = Color<uint8_t>(UINT8_MAX, 0, 0);
-            second(i, j) = Color<uint8_t>(0, UINT8_MAX, 0);
-            third(i, j) = first(i, j) + second(i, j);
-        }
-    }
+    std::cout << size << std::endl;
 
-    first.Write("Images/first.ppm");
-    second.Write("Images/second.ppm");
-    third.Write("Images/third.pbm");
+    first.Write("Images/readed.ppm");
 
     return 0;
 }
