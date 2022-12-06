@@ -6,6 +6,7 @@
 #define IMAGECONSTRUCT_MAP_H
 
 #include <vector>
+#include <functional>
 
 #include "types.h"
 #include "Color.h"
@@ -20,6 +21,8 @@ public:
     Color<T>& operator()(size_type i, size_type j);
     const Color<T>& operator()(size_type i, size_type j) const;
 
+    void Apply(std::function<Color<T>(size_type i, size_type j)> function);
+
     size_type GetWidth();
     size_type GetHeight();
 
@@ -28,6 +31,7 @@ public:
 protected:
     std::vector<std::vector<Color<T>>> m_map;
 
+    size_type m_depth;
     size_type m_width;
     size_type m_height;
 };
@@ -61,6 +65,8 @@ const Color<T> &Map<T>::operator()(size_type i, size_type j) const {
 
 template<typename T>
 void Map<T>::SetDepth(size_type depth) {
+    m_depth = depth;
+
     for (auto &row: m_map) {
         for (auto &element: row) {
             element.depth = depth;
@@ -95,6 +101,15 @@ size_type Map<T>::GetWidth() {
 template<typename T>
 size_type Map<T>::GetHeight() {
     return m_height;
+}
+
+template<typename T>
+void Map<T>::Apply(std::function<Color<T>(size_type i, size_type j)> function) {
+    for (size_type i = 0; i < m_height; ++i) {
+        for (size_type j = 0; j < m_width; ++j) {
+            (*this)(i, j) = function(i, j);
+        }
+    }
 }
 
 

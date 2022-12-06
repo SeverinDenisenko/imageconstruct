@@ -14,7 +14,6 @@ class Color {
 public:
     Color();
     virtual ~Color();
-    explicit Color(size_type d);
     explicit Color(T r);
     explicit Color(T r, T g);
     explicit Color(T r, T g, T b);
@@ -60,7 +59,8 @@ Color<T>::Color(T r, T g, T b, T a) : r(r), g(g), b(b), a(a), depth(4) {
 
 template<typename T>
 Color<T> Color<T>::operator+(const Color<T> &first) const {
-    Color<T> res = Color<T>(this->depth);
+    Color<T> res = Color<T>();
+    res.depth = this->depth;
 
     res.r = this->r + first.r;
     res.g = this->g + first.g;
@@ -72,7 +72,8 @@ Color<T> Color<T>::operator+(const Color<T> &first) const {
 
 template<typename T>
 Color<T> Color<T>::operator-(const Color<T> &first) const {
-    Color<T> res = Color<T>(this->depth);
+    Color<T> res = Color<T>();
+    res.depth = this->depth;
 
     res.r = this->r - first.r;
     res.g = this->g - first.g;
@@ -84,7 +85,8 @@ Color<T> Color<T>::operator-(const Color<T> &first) const {
 
 template<typename T>
 Color<T> Color<T>::operator*(const T &first) const {
-    Color<T> res = Color<T>(this->depth);
+    Color<T> res = Color<T>();
+    res.depth = this->depth;
 
     res.r = this->r * first;
     res.g = this->g * first;
@@ -96,7 +98,8 @@ Color<T> Color<T>::operator*(const T &first) const {
 
 template<typename T>
 Color<T> Color<T>::operator/(const T &first) const {
-    Color<T> res = Color<T>(this->depth);
+    Color<T> res = Color<T>();
+    res.depth = this->depth;
 
     res.r = this->r / first;
     res.g = this->g / first;
@@ -104,13 +107,6 @@ Color<T> Color<T>::operator/(const T &first) const {
     res.a = this->a / first;
 
     return res;
-}
-
-template<typename T>
-Color<T>::Color(size_type d) : r(0), g(0), b(0), a(0), depth(d) {
-    if (d > 4){
-        std::cerr << "Invalid color depth: " << d << std::endl;
-    }
 }
 
 template<typename T>
