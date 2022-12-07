@@ -8,5 +8,6 @@
 #include <cstdint>
 
 typedef uint32_t size_type;
+typedef int32_t num_type;
 
 #endif //IMAGECONSTRUCT_TYPES_H

@@ -21,8 +21,13 @@ public:
 
     virtual Color<T> operator+ (const Color<T> & first) const;
     virtual Color<T> operator- (const Color<T> & first) const;
-    virtual Color<T> operator* (const T& first) const;
-    virtual Color<T> operator/ (const T& first) const;
+    virtual Color<T> operator* (const double& first) const;
+    virtual Color<T> operator/ (const double& first) const;
+
+    virtual Color<T> operator+= (const Color<T> & first);
+    virtual Color<T> operator-= (const Color<T> & first);
+    virtual Color<T> operator*= (const double& first);
+    virtual Color<T> operator/= (const double& first);
 
     T r;
     T g;
@@ -84,20 +89,20 @@ Color<T> Color<T>::operator-(const Color<T> &first) const {
 }
 
 template<typename T>
-Color<T> Color<T>::operator*(const T &first) const {
+Color<T> Color<T>::operator*(const double &first) const {
     Color<T> res = Color<T>();
     res.depth = this->depth;
 
-    res.r = this->r * first;
-    res.g = this->g * first;
-    res.b = this->b * first;
-    res.a = this->a * first;
+    res.r = (double) this->r * first;
+    res.g = (double) this->g * first;
+    res.b = (double) this->b * first;
+    res.a = (double) this->a * first;
 
     return res;
 }
 
 template<typename T>
-Color<T> Color<T>::operator/(const T &first) const {
+Color<T> Color<T>::operator/(const double &first) const {
     Color<T> res = Color<T>();
     res.depth = this->depth;
 
@@ -107,6 +112,46 @@ Color<T> Color<T>::operator/(const T &first) const {
     res.a = this->a / first;
 
     return res;
+}
+
+template<typename T>
+Color<T> Color<T>::operator+=(const Color<T> &first) {
+    this->r += first.r;
+    this->g += first.g;
+    this->b += first.b;
+    this->a += first.a;
+
+    return *this;
+}
+
+template<typename T>
+Color<T> Color<T>::operator-=(const Color<T> &first) {
+    this->r -= first.r;
+    this->g -= first.g;
+    this->b -= first.b;
+    this->a -= first.a;
+
+    return *this;
+}
+
+template<typename T>
+Color<T> Color<T>::operator*=(const double &first) {
+    this->r *= first;
+    this->g *= first;
+    this->b *= first;
+    this->a *= first;
+
+    return *this;
+}
+
+template<typename T>
+Color<T> Color<T>::operator/=(const double &first) {
+    this->r /= first;
+    this->g /= first;
+    this->b /= first;
+    this->a /= first;
+
+    return *this;
 }
 
 template<typename T>

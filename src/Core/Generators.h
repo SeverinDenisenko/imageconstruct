@@ -7,7 +7,7 @@
 
 #include <random>
 
-#include "Core/Map.h"
+#include "Map.h"
 
 template<typename T>
 class Generators {
