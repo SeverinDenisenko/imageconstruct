@@ -9,6 +9,7 @@
 #include "Kernel.h"
 #include "Operators.h"
 #include "TiledMap.h"
+#include "KernelCollection.h"
 
 
 template<typename T>
@@ -16,44 +17,20 @@ class Filters {
 public:
     Filters() = delete;
 
-    static void GaussBlur3(Map<T> &map);
-    static void GaussBlur3(TiledMap<T> &map);
+    static void GaussBlur(Map<T> &map, size_type size);
+    static void GaussBlur(TiledMap<T> &map, size_type size);
 };
 
 template<typename T>
-void Filters<T>::GaussBlur3(Map<T> &map) {
-    Kernel<double> kernel = Kernel<double>(3);
-
-    kernel(0u, 0u) = 1.0/16;
-    kernel(0u, 2u) = 1.0/16;
-    kernel(2u, 0u) = 1.0/16;
-    kernel(2u, 2u) = 1.0/16;
-
-    kernel(1u, 0u) = 1.0/8;
-    kernel(0u, 1u) = 1.0/8;
-    kernel(1u, 2u) = 1.0/8;
-    kernel(2u, 1u) = 1.0/8;
-
-    kernel(2u, 2u) = 1.0/4;
+void Filters<T>::GaussBlur(Map<T> &map, size_type size) {
+    Kernel<double> kernel = KernelCollection<double>::GaussBlur(size);
 
     Operators<T>::Convolution(map, kernel);
 }
 
 template<typename T>
-void Filters<T>::GaussBlur3(TiledMap<T> &map) {
-    Kernel<double> kernel = Kernel<double>(3);
-
-    kernel(0u, 0u) = 1.0/16;
-    kernel(0u, 2u) = 1.0/16;
-    kernel(2u, 0u) = 1.0/16;
-    kernel(2u, 2u) = 1.0/16;
-
-    kernel(1u, 0u) = 1.0/8;
-    kernel(0u, 1u) = 1.0/8;
-    kernel(1u, 2u) = 1.0/8;
-    kernel(2u, 1u) = 1.0/8;
-
-    kernel(2u, 2u) = 1.0/4;
+void Filters<T>::GaussBlur(TiledMap<T> &map, size_type size) {
+    Kernel<double> kernel = KernelCollection<double>::GaussBlur(size);
 
     Operators<T>::Convolution(map, kernel);
 }

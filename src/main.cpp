@@ -14,21 +14,18 @@ int main() {
     NetPGM16(noise).Write("Images/white_noise.ppm");
     Opener::Open("Images/white_noise.ppm");
 
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
-    Filters<uint16_t>::GaussBlur3(noise);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
+    Filters<uint16_t>::GaussBlur(noise, 5);
 
     NetPGM16(noise).Write("Images/noise.ppm");
     Opener::Open("Images/noise.ppm");
