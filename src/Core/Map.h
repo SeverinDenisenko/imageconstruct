@@ -32,6 +32,7 @@ public:
     size_type GetDepth();
 
     void Clear(size_type width, size_type height, size_type depth);
+    void Fill(Color<T> color);
 protected:
     std::vector<std::vector<Color<T>>> m_map;
 
@@ -130,6 +131,15 @@ void Map<T>::Apply(std::function<void(Color<T>& res, size_type i, size_type j)> 
     for (size_type i = 0; i < m_height; ++i) {
         for (size_type j = 0; j < m_width; ++j) {
             function((*this)(i, j), i, j);
+        }
+    }
+}
+
+template<typename T>
+void Map<T>::Fill(Color<T> color) {
+    for (size_type i = 0; i < m_height; ++i) {
+        for (size_type j = 0; j < m_width; ++j) {
+            (*this)(i, j) = color;
         }
     }
 }

@@ -17,7 +17,6 @@ public:
     explicit Color(T r);
     explicit Color(T r, T g);
     explicit Color(T r, T g, T b);
-    explicit Color(T r, T g, T b, T a);
 
     virtual Color<T> operator+ (const Color<T> & first) const;
     virtual Color<T> operator- (const Color<T> & first) const;
@@ -32,33 +31,30 @@ public:
     T r;
     T g;
     T b;
-    T a;
 
     size_type depth;
+
+    static const T max_value = std::numeric_limits<T>::max();
+    static const T min_value = std::numeric_limits<T>::min();
 };
 
 template<typename T>
-Color<T>::Color() : r(0), g(0), b(0), a(0), depth(0) {
+Color<T>::Color() : r(0), g(0), b(0), depth(0) {
 
 }
 
 template<typename T>
-Color<T>::Color(T r) : r(r), g(0), b(0), a(0), depth(1) {
+Color<T>::Color(T r) : r(r), g(0), b(0), depth(1) {
 
 }
 
 template<typename T>
-Color<T>::Color(T r, T g) : r(r), g(g), b(0), a(0), depth(2) {
+Color<T>::Color(T r, T g) : r(r), g(g), b(0), depth(2) {
 
 }
 
 template<typename T>
-Color<T>::Color(T r, T g, T b) : r(r), g(g), b(b), a(0), depth(3) {
-
-}
-
-template<typename T>
-Color<T>::Color(T r, T g, T b, T a) : r(r), g(g), b(b), a(a), depth(4) {
+Color<T>::Color(T r, T g, T b) : r(r), g(g), b(b), depth(3) {
 
 }
 
@@ -70,7 +66,6 @@ Color<T> Color<T>::operator+(const Color<T> &first) const {
     res.r = this->r + first.r;
     res.g = this->g + first.g;
     res.b = this->b + first.b;
-    res.a = this->a + first.a;
 
     return res;
 }
@@ -83,7 +78,6 @@ Color<T> Color<T>::operator-(const Color<T> &first) const {
     res.r = this->r - first.r;
     res.g = this->g - first.g;
     res.b = this->b - first.b;
-    res.a = this->a - first.a;
 
     return res;
 }
@@ -96,7 +90,6 @@ Color<T> Color<T>::operator*(const double &first) const {
     res.r = (double) this->r * first;
     res.g = (double) this->g * first;
     res.b = (double) this->b * first;
-    res.a = (double) this->a * first;
 
     return res;
 }
@@ -109,7 +102,6 @@ Color<T> Color<T>::operator/(const double &first) const {
     res.r = this->r / first;
     res.g = this->g / first;
     res.b = this->b / first;
-    res.a = this->a / first;
 
     return res;
 }
@@ -119,7 +111,6 @@ Color<T> Color<T>::operator+=(const Color<T> &first) {
     this->r += first.r;
     this->g += first.g;
     this->b += first.b;
-    this->a += first.a;
 
     return *this;
 }
@@ -129,7 +120,6 @@ Color<T> Color<T>::operator-=(const Color<T> &first) {
     this->r -= first.r;
     this->g -= first.g;
     this->b -= first.b;
-    this->a -= first.a;
 
     return *this;
 }
@@ -139,7 +129,6 @@ Color<T> Color<T>::operator*=(const double &first) {
     this->r *= first;
     this->g *= first;
     this->b *= first;
-    this->a *= first;
 
     return *this;
 }
@@ -149,7 +138,6 @@ Color<T> Color<T>::operator/=(const double &first) {
     this->r /= first;
     this->g /= first;
     this->b /= first;
-    this->a /= first;
 
     return *this;
 }
@@ -172,9 +160,6 @@ U& operator<< (U& out, const Color<T> &color) {
         case 3:
             out << +color.r << " " << +color.g << " " << +color.b << std::endl;
             break;
-        case 4:
-            out << +color.r << " " << +color.g << " " << +color.b << " " << +color.a << std::endl;
-            break;
         default:
             std::cerr << "Invalid color depth: " << color.depth << std::endl;
     }
@@ -188,7 +173,6 @@ U& operator>> (U& in, Color<T> &color) {
     size_type r = 0;
     size_type g = 0;
     size_type b = 0;
-    size_type a = 0;
 
     switch (color.depth) {
         case 0:
@@ -205,12 +189,6 @@ U& operator>> (U& in, Color<T> &color) {
             in >> g;
             in >> b;
             break;
-        case 4:
-            in >> r;
-            in >> g;
-            in >> b;
-            in >> a;
-            break;
         default:
             std::cerr << "Invalid color depth: " << color.depth << std::endl;
     }
@@ -218,7 +196,6 @@ U& operator>> (U& in, Color<T> &color) {
     color.r = (T) r;
     color.g = (T) g;
     color.b = (T) b;
-    color.a = (T) a;
 
     return in;
 }

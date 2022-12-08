@@ -14,14 +14,13 @@ class KernelCollection {
 public:
     KernelCollection() = delete;
 
-    static Kernel<T> GaussBlur(size_type size);
+    static Kernel<T> GaussBlur(size_type size, T sigma);
 };
 
 template<typename T>
-Kernel<T> KernelCollection<T>::GaussBlur(size_type size) {
+Kernel<T> KernelCollection<T>::GaussBlur(size_type size, T sigma) {
     Kernel<T> kernel = Kernel<T>(size);
 
-    T sigma = 1.0;
     T s = 2.0 * sigma * sigma;
     T sum = 0;
 

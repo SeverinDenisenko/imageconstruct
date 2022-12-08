@@ -38,8 +38,6 @@ void Operators<T>::Convolution(TiledMap<T>& image, Kernel<U>& kernel) {
                 res += image(in + k, jn + l) * kernel(k, l);
             }
         }
-
-        std::cout << res;
     };
 
     result.Apply(f);

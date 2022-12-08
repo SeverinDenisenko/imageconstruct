@@ -17,20 +17,20 @@ class Filters {
 public:
     Filters() = delete;
 
-    static void GaussBlur(Map<T> &map, size_type size);
-    static void GaussBlur(TiledMap<T> &map, size_type size);
+    static void GaussBlur(Map<T> &map, size_type size, double sigma);
+    static void GaussBlur(TiledMap<T> &map, size_type size, double sigma);
 };
 
 template<typename T>
-void Filters<T>::GaussBlur(Map<T> &map, size_type size) {
-    Kernel<double> kernel = KernelCollection<double>::GaussBlur(size);
+void Filters<T>::GaussBlur(Map<T> &map, size_type size, double sigma) {
+    Kernel<double> kernel = KernelCollection<double>::GaussBlur(size, sigma);
 
     Operators<T>::Convolution(map, kernel);
 }
 
 template<typename T>
-void Filters<T>::GaussBlur(TiledMap<T> &map, size_type size) {
-    Kernel<double> kernel = KernelCollection<double>::GaussBlur(size);
+void Filters<T>::GaussBlur(TiledMap<T> &map, size_type size, double sigma) {
+    Kernel<double> kernel = KernelCollection<double>::GaussBlur(size, sigma);
 
     Operators<T>::Convolution(map, kernel);
 }
