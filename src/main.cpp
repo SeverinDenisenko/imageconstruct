@@ -8,8 +8,11 @@
 
 int main() {
 
+    Generators<uint16_t> generators = Generators<uint16_t>();
+    generators.SetSeed(1);
+
     // Make white noise
-    TiledMap<uint16_t> noise = TiledMap<uint16_t>(Generators<uint16_t>::WhiteNoise(256, 256));
+    TiledMap<uint16_t> noise = TiledMap<uint16_t>(generators.WhiteNoise(32, 32));
 
     Filters<uint16_t>::GaussBlur(noise, 7);
     Filters<uint16_t>::GaussBlur(noise, 7);

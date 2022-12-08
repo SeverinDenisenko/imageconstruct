@@ -12,19 +12,21 @@
 template<typename T>
 class Generators {
 public:
-    Generators() = delete;
+    Generators() = default;
 
-    static Map<T> WhiteNoise(size_type width, size_type height);
+    Map<T> WhiteNoise(size_type width, size_type height);
+
+    void RandomSeed();
+    void SetSeed(T seed);
+private:
+    T m_seed = 0;
 };
 
 template<typename T>
 Map<T> Generators<T>::WhiteNoise(size_type width, size_type height) {
     Map<T> noise = Map<T>(width, height);
 
-    std::random_device os_seed;
-    const T seed = os_seed();
-
-    std::mt19937 generator( seed );
+    std::mt19937 generator( m_seed );
     std::uniform_int_distribution<T> distribute( 0, std::numeric_limits<T>::max());
 
     std::function<Color<T>(void)> function = [&distribute, &generator]() -> Color<uint16_t> {
@@ -34,6 +36,17 @@ Map<T> Generators<T>::WhiteNoise(size_type width, size_type height) {
     noise.Apply(function);
 
     return noise;
+}
+
+template<typename T>
+void Generators<T>::RandomSeed() {
+    std::random_device os_seed;
+    m_seed = os_seed();
+}
+
+template<typename T>
+void Generators<T>::SetSeed(T seed) {
+    m_seed = seed;
 }
 
 
