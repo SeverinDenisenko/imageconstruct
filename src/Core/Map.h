@@ -21,8 +21,9 @@ public:
     virtual Color<T>& operator()(size_type i, size_type j);
     virtual const Color<T>& operator()(size_type i, size_type j) const;
 
-    void Apply(std::function<Color<T>(size_type i, size_type j)> function);
-    void Apply(std::function<Color<T>(void)> function);
+    void Apply(std::function<Color<T>(size_type i, size_type j)> &function);
+    void Apply(std::function<Color<T>(void)> &function);
+    void Apply(std::function<void(Color<T>& res, size_type i, size_type j)> &function);
 
     size_type GetWidth();
     size_type GetHeight();
@@ -102,7 +103,7 @@ size_type Map<T>::GetHeight() {
 }
 
 template<typename T>
-void Map<T>::Apply(std::function<Color<T>(size_type i, size_type j)> function) {
+void Map<T>::Apply(std::function<Color<T>(size_type i, size_type j)> &function) {
     for (size_type i = 0; i < m_height; ++i) {
         for (size_type j = 0; j < m_width; ++j) {
             (*this)(i, j) = function(i, j);
@@ -111,7 +112,7 @@ void Map<T>::Apply(std::function<Color<T>(size_type i, size_type j)> function) {
 }
 
 template<typename T>
-void Map<T>::Apply(std::function<Color<T>(void)> function) {
+void Map<T>::Apply(std::function<Color<T>(void)> &function) {
     for (size_type i = 0; i < m_height; ++i) {
         for (size_type j = 0; j < m_width; ++j) {
             (*this)(i, j) = function();
@@ -122,6 +123,15 @@ void Map<T>::Apply(std::function<Color<T>(void)> function) {
 template<typename T>
 size_type Map<T>::GetDepth() {
     return m_depth;
+}
+
+template<typename T>
+void Map<T>::Apply(std::function<void(Color<T>& res, size_type i, size_type j)> &function) {
+    for (size_type i = 0; i < m_height; ++i) {
+        for (size_type j = 0; j < m_width; ++j) {
+            function((*this)(i, j), i, j);
+        }
+    }
 }
 
 

@@ -26,22 +26,23 @@ void Operators<T>::Convolution(TiledMap<T>& image, Kernel<U>& kernel) {
     TiledMap<T> result = TiledMap<T>(image.GetWidth(), image.GetHeight());
     result.SetDepth(image.GetDepth());
 
-    num_type image_height = image.GetHeight();
-    num_type image_with = image.GetWidth();
-
     num_type kernel_size = kernel.GetSize();
 
-    for (num_type i = 0; i < image_height; ++i) {
-        for (num_type j = 0; j < image_with; ++j) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&image, &kernel, &kernel_size](Color<T>& res, size_type i, size_type j){
+        auto in = (num_type) i;
+        auto jn = (num_type) j;
 
-            for (num_type k = -kernel_size / 2; k <= kernel_size / 2; ++k) {
-                for (num_type l = -kernel_size / 2; l <= kernel_size / 2; ++l) {
+        for (num_type k = -kernel_size / 2; k <= kernel_size / 2; ++k) {
+            for (num_type l = -kernel_size / 2; l <= kernel_size / 2; ++l) {
 
-                    result(i, j) += image(i + k, j + l) * kernel(k, l);
-                }
+                res += image(in + k, jn + l) * kernel(k, l);
             }
         }
-    }
+
+        std::cout << res;
+    };
+
+    result.Apply(f);
 
     image = result;
 }

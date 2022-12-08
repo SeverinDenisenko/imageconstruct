@@ -14,15 +14,6 @@ int main() {
     Filters<uint16_t>::GaussBlur(noise, 7);
     Filters<uint16_t>::GaussBlur(noise, 7);
     Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
-    Filters<uint16_t>::GaussBlur(noise, 7);
 
     NetPGM16(noise).Write("Images/noise.ppm");
     Utils::ToPNG("Images/noise.ppm", "Images/noise.png");
