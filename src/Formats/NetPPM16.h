@@ -9,6 +9,9 @@
 
 #include "../Core/Map.h"
 
+/**
+ * PPM Stands for Portable Pixel Map. Represents colorful RGB image.
+ */
 class NetPPM16 : public Map<uint16_t> {
 public:
     NetPPM16(size_type width, size_type height);

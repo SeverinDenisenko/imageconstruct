@@ -7,7 +7,9 @@
 
 #include "../Core/Map.h"
 
-
+/**
+ * PPM Stands for Portable Pixel Map. Represents colorful RGB image.
+ */
 class NetPPM8 : public Map<uint8_t> {
 public:
     NetPPM8(size_type width, size_type height);

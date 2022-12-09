@@ -7,6 +7,9 @@
 
 #include "../Core/Map.h"
 
+/**
+ * PBM Stands for Portable Bit Map. Represents image with only tho possible values
+ */
 class NetPBM : public Map<bool> {
 public:
     NetPBM(size_type width, size_type height);

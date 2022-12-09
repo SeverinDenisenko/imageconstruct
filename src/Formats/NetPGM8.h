@@ -7,6 +7,9 @@
 
 #include "../Core/Map.h"
 
+/**
+ * PGM Stands for Portable Gray Map. Represents image with only gray colors
+ */
 class NetPGM8 : public Map<uint8_t>  {
 public:
     NetPGM8(size_type width, size_type height);

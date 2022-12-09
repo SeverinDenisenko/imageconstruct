@@ -11,6 +11,10 @@
 #include "types.h"
 #include "Color.h"
 
+/**
+ * Base class for all images
+ * @tparam T can be any type that supports + - * /
+ */
 template <typename T>
 class Map {
 public:
@@ -21,6 +25,9 @@ public:
     virtual Color<T>& operator()(size_type i, size_type j);
     virtual const Color<T>& operator()(size_type i, size_type j) const;
 
+    /**
+     * Functions that iterate threw all image and applying function to every element
+     */
     void Apply(std::function<Color<T>(size_type i, size_type j)> &function);
     void Apply(std::function<Color<T>(void)> &function);
     void Apply(std::function<void(Color<T>& res, size_type i, size_type j)> &function);
@@ -28,10 +35,25 @@ public:
     size_type GetWidth();
     size_type GetHeight();
 
+    /**
+     * Sets color depth of an image
+     * @param depth size_type from 0 to 3
+     */
     void SetDepth(size_type depth);
     size_type GetDepth();
 
+    /**
+     * Delete old image and creates new
+     * @param width
+     * @param height
+     * @param depth Color depth
+     */
     void Clear(size_type width, size_type height, size_type depth);
+
+    /**
+     * Fill image with one color
+     * @param color
+     */
     void Fill(Color<T> color);
 protected:
     std::vector<std::vector<Color<T>>> m_map;

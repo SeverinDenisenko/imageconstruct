@@ -10,6 +10,10 @@
 
 #include "types.h"
 
+/**
+ * Kernel used in convolution
+ * @tparam T
+ */
 template<typename T>
 class Kernel {
 public:
@@ -17,9 +21,15 @@ public:
 
     size_type GetSize();
 
+    /**
+     * Access with size_type from 0 to size - 1
+     */
     T& operator()(size_type i, size_type j);
     const T& operator()(size_type i, size_type j) const;
 
+    /**
+     * Access with num_type from -size/2 to size/2
+     */
     T& operator()(num_type i, num_type j);
     const T& operator()(num_type i, num_type j) const;
 private:
