@@ -25,6 +25,16 @@ public:
     virtual Color<T>& operator()(size_type i, size_type j);
     virtual const Color<T>& operator()(size_type i, size_type j) const;
 
+    void operator+=(const Map<T>& map);
+    void operator-=(const Map<T>& map);
+    void operator*=(const double& t);
+    void operator/=(const double& t);
+
+    void operator+=(const Color<T>& color);
+    void operator-=(const Color<T>& color);
+
+    void Overlay(const Map<T>& overlay, const Map<double>& mask);
+
     /**
      * Functions that iterate threw all image and applying function to every element
      */
@@ -159,12 +169,74 @@ void Map<T>::Apply(std::function<void(Color<T>& res, size_type i, size_type j)> 
 
 template<typename T>
 void Map<T>::Fill(Color<T> color) {
-    for (size_type i = 0; i < m_height; ++i) {
-        for (size_type j = 0; j < m_width; ++j) {
-            (*this)(i, j) = color;
-        }
-    }
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&color](Color<T>& res, size_type i, size_type j){
+        res = color;
+    };
+
+    Apply(f);
 }
 
+template<typename T>
+void Map<T>::operator+=(const Map<T> &map) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&map](Color<T>& res, size_type i, size_type j){
+        res += map(i, j);
+    };
+
+    Apply(f);
+}
+
+template<typename T>
+void Map<T>::operator-=(const Map<T> &map) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&map](Color<T>& res, size_type i, size_type j){
+        res -= map(i, j);
+    };
+
+    Apply(f);
+}
+
+template<typename T>
+void Map<T>::operator*=(const double& t) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&t](Color<T>& res, size_type i, size_type j){
+        res *= t;
+    };
+
+    Apply(f);
+}
+
+template<typename T>
+void Map<T>::operator/=(const double& t) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&t](Color<T>& res, size_type i, size_type j){
+        res /= t;
+    };
+
+    Apply(f);
+}
+
+template<typename T>
+void Map<T>::Overlay(const Map<T> &overlay, const Map<double> &mask) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&overlay, &mask](Color<T>& res, size_type i, size_type j){
+        res = overlay(i, j) * mask(i, j).r + res * (1.0 - mask(i, j).r);
+    };
+
+    Apply(f);
+}
+
+template<typename T>
+void Map<T>::operator+=(const Color<T> &color) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&color](Color<T>& res, size_type i, size_type j){
+        res += color;
+    };
+
+    Apply(f);
+}
+
+template<typename T>
+void Map<T>::operator-=(const Color<T> &color) {
+    std::function<void(Color<T>& res, size_type i, size_type j)> f = [&color](Color<T>& res, size_type i, size_type j){
+        res -= color;
+    };
+
+    Apply(f);
+}
 
 #endif //IMAGECONSTRUCT_MAP_H

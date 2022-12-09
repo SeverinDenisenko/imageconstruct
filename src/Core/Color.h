@@ -34,8 +34,8 @@ public:
 
     size_type depth;
 
-    static const T max_value = std::numeric_limits<T>::max();
-    static const T min_value = std::numeric_limits<T>::min();
+    static constexpr T max_value = std::numeric_limits<T>::max();
+    static constexpr T min_value = std::numeric_limits<T>::min();
 };
 
 template<typename T>
