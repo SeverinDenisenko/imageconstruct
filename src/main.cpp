@@ -1,27 +1,28 @@
-#include "Formats/NetPPM16.h"
 #include "Core/TiledMap.h"
 #include "Utils.h"
 #include "Core/Generators.h"
-#include "Core/Operators.h"
 #include "Core/Filters.h"
-#include "Core/Kernel.h"
 #include "Core/Drawer.h"
+#include "Formats/NetPGM8.h"
 
 int main() {
-    // Make white noise
-    TiledMap<uint16_t> pic = TiledMap<uint16_t>(64, 64);
-    pic.Fill(Color<uint16_t>(0, 0, Color<uint16_t>::max_value));
+    Generators<uint8_t> generators = Generators<uint8_t>();
 
-    Drawer<uint16_t> drawer = Drawer<uint16_t>();
+    size_type size = 256;
 
-    drawer.DrawCircle(pic, 31.5, 31.5, 20, Color<uint16_t>(Color<uint16_t>::max_value, 0, 0));
+    TiledMap<uint8_t> pic = TiledMap<uint8_t>(generators.WhiteNoise(size, size));
 
-    Filters<uint16_t>::GaussBlur(pic, 13, 10);
+    Drawer<uint8_t> drawer = Drawer<uint8_t>();
+    drawer.DrawCircle(pic, 20, 20, 15, Color<uint8_t>(0));
+    drawer.DrawRectangle(pic, 40, 5, 70, 35, Color<uint8_t>(0));
+    drawer.DrawCircle(pic, 20, 60, 15, Color<uint8_t>(Color<uint8_t>::max_value));
+    drawer.DrawRectangle(pic, 40, 45, 70, 75, Color<uint8_t>(Color<uint8_t>::max_value));
 
-    NetPPM16(pic).Write("Images/noise.ppm");
-    Utils::ToPNG("Images/noise.ppm", "Images/noise.png");
+    Filters<uint8_t>::GaussBlur(pic, 9, 1);
+    Filters<uint8_t>::GaussBlur(pic, 9, 1);
 
-    Utils::Open("Images/noise.png");
+    NetPGM8(pic).Write("Images/noise.ppm");
+    Utils::Open("Images/noise.ppm");
 
     return 0;
 }

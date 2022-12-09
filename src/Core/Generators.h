@@ -29,7 +29,7 @@ Map<T> Generators<T>::WhiteNoise(size_type width, size_type height) {
     std::mt19937 generator( m_seed );
     std::uniform_int_distribution<T> distribute( 0, std::numeric_limits<T>::max());
 
-    std::function<Color<T>(void)> function = [&distribute, &generator]() -> Color<uint16_t> {
+    std::function<Color<T>(void)> function = [&distribute, &generator]() -> Color<T> {
         return Color<T>(distribute(generator));
     };
 
