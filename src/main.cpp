@@ -3,45 +3,41 @@
 #include "Core/Generators.h"
 #include "Core/Filters.h"
 #include "Core/Drawer.h"
-#include "Formats/NetPGM8.h"
+#include "Formats/NetPGM16.h"
 
 int main() {
-    Generators<uint8_t> generators = Generators<uint8_t>();
+    size_type size = 512;
 
-    size_type size = 256;
+    TiledMap<uint16_t> pic = TiledMap<uint16_t>(512, 512);
 
-    TiledMap<uint8_t> pic = TiledMap<uint8_t>(generators.WhiteNoise(size, size));
+    TiledMap<uint16_t> geom_layer = TiledMap<uint16_t>(512, 512);
+    TiledMap<double> mask_layer = TiledMap<double>(512, 512);
 
-    pic *= 0.1;
-    pic += Color<uint8_t>(Color<uint8_t>::max_value / 2);
+    Drawer<uint16_t> geom_drawer = Drawer<uint16_t>();
+    geom_drawer.DrawRectangle(geom_layer, 0, 0, 100, 100, Color<uint16_t>(Color<uint16_t>::max_value));
+    geom_drawer.DrawRectangle(geom_layer, 200, 200, 300, 300, Color<uint16_t>(Color<uint16_t>::max_value));
 
-    Filters<uint8_t>::GaussBlur(pic, 9, 1);
-    Filters<uint8_t>::GaussBlur(pic, 9, 1);
+    Drawer<double> mask_drawer = Drawer<double>();
+    mask_drawer.DrawRectangle(mask_layer, 0, 0, 100, 100, Color<double>(1));
+    mask_drawer.DrawRectangle(mask_layer, 200, 200, 300, 300, Color<double>(1));
 
-    TiledMap<uint8_t> geom = TiledMap<uint8_t>(size, size);
-    TiledMap<double> mask = TiledMap<double>(size, size);
+    Filters<uint16_t>::GaussBlur(geom_layer, 9, 0.7);
+    Filters<double>::GaussBlur(mask_layer, 9, 0.7);
 
-    Drawer<uint8_t> drawer = Drawer<uint8_t>();
-    drawer.DrawCircle(geom, 20, 20, 15, Color<uint8_t>(0));
-    drawer.DrawRectangle(geom, 40, 5, 70, 35, Color<uint8_t>(0));
-    drawer.DrawCircle(geom, 20, 60, 15, Color<uint8_t>(Color<uint8_t>::max_value));
-    drawer.DrawRectangle(geom, 40, 45, 70, 75, Color<uint8_t>(Color<uint8_t>::max_value));
+    pic.Overlay(geom_layer, mask_layer);
 
-    Drawer<double> drawer1 = Drawer<double>();
-    drawer1.DrawCircle(mask, 20, 20, 15, Color<double>(1.0));
-    drawer1.DrawRectangle(mask, 40, 5, 70, 35, Color<double>(1.0));
-    drawer1.DrawCircle(mask, 20, 60, 15, Color<double>(1.0));
-    drawer1.DrawRectangle(mask, 40, 45, 70, 75, Color<double>(1.0));
+    mask_layer.Fill(Color<double>(0));
+    Generators<uint16_t> generators = Generators<uint16_t>();
+    TiledMap<uint16_t> noise = TiledMap<uint16_t>(generators.WhiteNoise(size, size));
+    mask_drawer.DrawRectangle(mask_layer, 300, 0, 400, 100, Color<double>(1));
+    pic.Overlay(noise, mask_layer);
 
-    Filters<uint8_t>::GaussBlur(geom, 3, 0.7);
-    Filters<uint8_t>::GaussBlur(geom, 3, 0.7);
+    mask_layer.Fill(Color<double>(0));
+    Filters<uint16_t>::GaussBlur(noise, 13, 3);
+    mask_drawer.DrawRectangle(mask_layer, 0, 300, 100, 400, Color<double>(1));
+    pic.Overlay(noise, mask_layer);
 
-    Filters<double>::GaussBlur(mask, 3, 0.7);
-    Filters<double>::GaussBlur(mask, 3, 0.7);
-
-    pic.Overlay(geom, mask);
-
-    NetPGM8(pic).Write("Images/noise.ppm");
+    NetPGM16(pic).Write("Images/noise.ppm");
     Utils::Open("Images/noise.ppm");
 
     return 0;
